@@ -1,56 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import React, { useState } from 'react';
 import './App.css';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Lists from './components/Lists';
 
 function App() {
+  //set initial todo lists
+  const [todo, setTodo] = useState([{id: "001", event: "Sleeping", done: true},
+  {id: "002", event: "Eating", done: true}, {id: "003", event: "Coding", done: false}])
+
+  //add new todo item into todo lists
+  const addTodo = (newTodo) => {
+    setTodo([newTodo, ...todo])
+  }
+
+  // update the done property of todos, get it from Item component
+  const updateTodo = (done, id) => {
+    const newTodo = todo.map(item => {
+      if (item.id === id) {
+        return {...item, done}
+      } else {
+        return item
+      }
+    })
+    setTodo(newTodo)
+  }
+
+  //delete specified todo
+  const deleteTodo = (id) => {
+    const newTodo = todo.filter(item => {
+      return item.id !== id
+    })
+    setTodo(newTodo)
+  }
+
+  const updateAll = (done) => {
+    const newTodo = todo.map(item => ({...item, done}))
+    setTodo(newTodo)
+  }
+
+  const clearAllDone = () => {
+    const newTodo = todo.filter(item => {return !item.done})
+    setTodo(newTodo)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <div className="main">
+        <Header addTodo={addTodo}/>
+        <Lists todo={todo} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
+        <Footer todo={todo} updateAll={updateAll} clearAllDone={clearAllDone}/>
+      </div>
     </div>
   );
 }

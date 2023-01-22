@@ -1,0 +1,30 @@
+.Item {
+  border: 1px solid rgb(202, 195, 195);
+  margin-bottom: -1px;
+  display: block;
+}
+
+li {
+  height: 50px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Item span {
+  padding-left: 5px;
+}
+
+li button {
+  padding: 8px;
+  display: none;
+}
+
+li:hover {
+  background-color: rgb(221, 221, 221);
+}
+
+li:hover button {
+  display: block;
+}
